@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using CommandLine;
+
+[assembly:InternalsVisibleTo("RapogGenerator.Tests")]
 
 namespace RapogGenerator
 {
