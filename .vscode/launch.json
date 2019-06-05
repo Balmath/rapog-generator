@@ -12,6 +12,17 @@
             "program": "${workspaceFolder}/src/RapogGenerator/bin/Debug/netcoreapp2.2/RapogGenerator.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Launch RAPOG Generator list (Windows)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/RapogGenerator/bin/Debug/netcoreapp2.2/RapogGenerator.dll",
+            "args": ["list", "-i", "D:\\Development\\RAPOG Files"],
+            "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "stopAtEntry": false
         }
