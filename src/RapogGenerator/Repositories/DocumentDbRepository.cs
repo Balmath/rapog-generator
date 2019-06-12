@@ -2,16 +2,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using RapogGenerator.DocumentDB;
 
 namespace RapogGenerator.Repositories
 {
     class DocumentDbRepository
     {
         private readonly string rootDirectoryPath;
+        private readonly DocumentClient documentClient;
 
         public DocumentDbRepository(string rootDirectoryPath)
         {
             this.rootDirectoryPath = rootDirectoryPath;
+            documentClient = new DocumentClient(rootDirectoryPath);
         }
 
         private void AddArticleDocumentFilePaths(string rootDirectoryPath, string currentDirectoryPath, IList<string> articleDocumentPaths)
@@ -43,6 +46,11 @@ namespace RapogGenerator.Repositories
             AddArticleDocumentFilePaths(rootDirectoryPath, rootDirectoryPath, articleDocumentPaths);
 
             return Task.FromResult<IEnumerable<string>>(articleDocumentPaths);
+        }
+
+        public Task<ArticleDocument> GetArticleDocument(string articleDocumentPath)
+        {
+            return documentClient.GetArticle(articleDocumentPath);
         }
     }
 }
