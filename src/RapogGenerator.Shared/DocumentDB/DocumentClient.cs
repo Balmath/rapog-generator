@@ -2,9 +2,9 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace RapogGenerator.DocumentDB
+namespace RapogGenerator.Shared.DocumentDB
 {
-    class DocumentClient
+    public class DocumentClient
     {
         private readonly string documentsDirectory;
 

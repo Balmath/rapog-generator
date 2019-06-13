@@ -1,11 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using CommandLine;
-using RapogGenerator.Repositories;
-
-[assembly:InternalsVisibleTo("RapogGenerator.Tests")]
+using RapogGenerator.Shared.Repositories;
 
 namespace RapogGenerator
 {
@@ -50,8 +46,8 @@ namespace RapogGenerator
 
         static int ListArticles(ListOptions options)
         {
-            var repository = new DocumentDbRepository(options.InputDirectory);
-            var task = repository.GetAllArticleDocumentPaths();
+            var repository = new ArticleRepository(options.InputDirectory);
+            var task = repository.GetAllArticlePaths();
             task.Wait();
             foreach (var articleDocumentPath in task.Result)
             {
@@ -64,16 +60,17 @@ namespace RapogGenerator
         {
             try
             {
-                var repository = new DocumentDbRepository(options.InputDirectory);
-                var task = repository.GetArticleDocument(options.Path);
+                var repository = new ArticleRepository(options.InputDirectory);
+                var task = repository.GetArticle(options.Path);
                 task.Wait();
-                var articleDocument = task.Result;
-                Console.WriteLine("Title: {0}", articleDocument.Title);
-                Console.WriteLine("Author: {0}", articleDocument.Author);
-                Console.WriteLine("Category: {0}", articleDocument.Category);
-                Console.WriteLine("Tags: {0}", articleDocument.Tags);
-                Console.WriteLine("Date: {0}", articleDocument.Date);
-                Console.WriteLine("Content: {0}", articleDocument.Content);
+                var article = task.Result;
+                Console.WriteLine("Path: {0}", article.Path);
+                Console.WriteLine("Title: {0}", article.Title);
+                Console.WriteLine("Author: {0}", article.Author);
+                Console.WriteLine("Category: {0}", article.Category);
+                Console.WriteLine("Tags: {0}", article.Tags);
+                Console.WriteLine("Date: {0}", article.Date);
+                Console.WriteLine("Content: {0}", article.Content);
             }
             catch (AggregateException ae)
             {

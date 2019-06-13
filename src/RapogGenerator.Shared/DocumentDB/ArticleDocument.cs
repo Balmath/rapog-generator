@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace RapogGenerator.DocumentDB
+namespace RapogGenerator.Shared.DocumentDB
 {
-    class ArticleDocument
+    public class ArticleDocument
     {
         [JsonProperty(PropertyName = "title", Required = Required.Always)]
         public string Title { get; set; }

@@ -2,16 +2,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using RapogGenerator.DocumentDB;
+using RapogGenerator.Shared.DocumentDB;
+using RapogGenerator.Shared.Models;
 
-namespace RapogGenerator.Repositories
+namespace RapogGenerator.Shared.Repositories
 {
-    class DocumentDbRepository
+    public class ArticleRepository
     {
         private readonly string rootDirectoryPath;
         private readonly DocumentClient documentClient;
 
-        public DocumentDbRepository(string rootDirectoryPath)
+        public ArticleRepository(string rootDirectoryPath)
         {
             this.rootDirectoryPath = rootDirectoryPath;
             documentClient = new DocumentClient(rootDirectoryPath);
@@ -34,7 +35,7 @@ namespace RapogGenerator.Repositories
             }
         }
 
-        public Task<IEnumerable<string>> GetAllArticleDocumentPaths()
+        public Task<IEnumerable<string>> GetAllArticlePaths()
         {
             if (!Directory.Exists(rootDirectoryPath))
             {
@@ -48,9 +49,18 @@ namespace RapogGenerator.Repositories
             return Task.FromResult<IEnumerable<string>>(articleDocumentPaths);
         }
 
-        public Task<ArticleDocument> GetArticleDocument(string articleDocumentPath)
+        public async Task<Article> GetArticle(string articleDocumentPath)
         {
-            return documentClient.GetArticle(articleDocumentPath);
+            var articleDocument = await documentClient.GetArticle(articleDocumentPath);
+            return new Article(
+                articleDocumentPath,
+                articleDocument.Title,
+                articleDocument.Author,
+                articleDocument.Category,
+                articleDocument.Date,
+                articleDocument.Tags.Split(',').Select(s => s.Trim()).ToList(),
+                articleDocument.Content,
+                articleDocument.Comments.Select(cd => new Comment(cd.Author, cd.Date, cd.Content)));
         }
     }
 }

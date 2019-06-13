@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\RapogGenerator\RapogGenerator.csproj" />
+    <ProjectReference Include="..\..\src\RapogGenerator.Shared\RapogGenerator.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

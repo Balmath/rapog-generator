@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace RapogGenerator.DocumentDB.Tests
+namespace RapogGenerator.Shared.DocumentDB.Tests
 {
     public class DocumentClientTests
     {

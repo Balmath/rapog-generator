@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace RapogGenerator.Models
+namespace RapogGenerator.Shared.Models
 {
-    class Article
+    public class Article
     {
         public Article(string path, string title, string author, string category, DateTime date, IEnumerable<string> tags, string content, IEnumerable<Comment> comments)
         {

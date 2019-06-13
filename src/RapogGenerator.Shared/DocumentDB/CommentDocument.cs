@@ -1,9 +1,9 @@
 using System;
 using Newtonsoft.Json;
 
-namespace RapogGenerator.DocumentDB
+namespace RapogGenerator.Shared.DocumentDB
 {
-    class CommentDocument
+    public class CommentDocument
     {
         [JsonProperty(PropertyName = "author", Required = Required.Always)]
         public string Author { get; set; }

@@ -1,8 +1,8 @@
 using System;
 
-namespace RapogGenerator.Models
+namespace RapogGenerator.Shared.Models
 {
-    class Comment
+    public class Comment
     {
         public Comment(string author, DateTime date, string content)
         {
