@@ -7,7 +7,7 @@ using RapogGenerator.Shared.Models;
 
 namespace RapogGenerator.Shared.Repositories
 {
-    public class ArticleRepository
+    public class ArticleRepository : IArticleRepository
     {
         private readonly string rootDirectoryPath;
         private readonly DocumentClient documentClient;
