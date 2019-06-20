@@ -58,7 +58,8 @@ namespace RapogGenerator.Shared.Repositories
                 articleDocument.Author,
                 articleDocument.Category,
                 articleDocument.Date,
-                articleDocument.Tags.Split(',').Select(s => s.Trim()).ToList(),
+                !string.IsNullOrWhiteSpace(articleDocument.Tags) ? articleDocument.Tags.Split(',').Select(s => s.Trim()).ToList()
+                                                                 : Enumerable.Empty<string>(),
                 articleDocument.Content,
                 articleDocument.Comments.Select(cd => new Comment(cd.Author, cd.Date, cd.Content)));
         }
