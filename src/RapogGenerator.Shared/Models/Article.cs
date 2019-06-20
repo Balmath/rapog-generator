@@ -10,7 +10,7 @@ namespace RapogGenerator.Shared.Models
             Path = path;
             Title = title;
             Author = author;
-            Category = Category;
+            Category = category;
             Date = date;
             Tags = tags;
             Content = content;
