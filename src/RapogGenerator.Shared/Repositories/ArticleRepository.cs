@@ -18,7 +18,7 @@ namespace RapogGenerator.Shared.Repositories
             documentClient = new DocumentClient(rootDirectoryPath);
         }
 
-        private void AddArticleDocumentFilePaths(string rootDirectoryPath, string currentDirectoryPath, IList<string> articleDocumentPaths)
+        private void AddArticleDocumentFilePaths(string currentDirectoryPath, IList<string> articleDocumentPaths)
         {
             foreach (var filePath in Directory.EnumerateFiles(currentDirectoryPath))
             {
@@ -31,7 +31,7 @@ namespace RapogGenerator.Shared.Repositories
 
             foreach (var directoryPath in Directory.EnumerateDirectories(currentDirectoryPath))
             {
-                AddArticleDocumentFilePaths(rootDirectoryPath, directoryPath, articleDocumentPaths);
+                AddArticleDocumentFilePaths(directoryPath, articleDocumentPaths);
             }
         }
 
@@ -44,7 +44,7 @@ namespace RapogGenerator.Shared.Repositories
 
             var articleDocumentPaths = new List<string>();
 
-            AddArticleDocumentFilePaths(rootDirectoryPath, rootDirectoryPath, articleDocumentPaths);
+            AddArticleDocumentFilePaths(rootDirectoryPath, articleDocumentPaths);
 
             return Task.FromResult<IEnumerable<string>>(articleDocumentPaths);
         }

@@ -10,10 +10,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\RapogGenerator.Shared\RapogGenerator.Shared.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,4 +19,5 @@
     </None>
   </ItemGroup>
 
+  <Import Project="..\..\src\RapogGenerator.Shared\RapogGenerator.Shared.projitems" Label="Shared" Condition="Exists('..\..\src\RapogGenerator.Shared\RapogGenerator.Shared.projitems')" />
 </Project>

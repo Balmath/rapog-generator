@@ -7,10 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RapogGenerator.Shared\RapogGenerator.Shared.csproj" />
-  </ItemGroup>
-
+  <Import Project="..\RapogGenerator.Shared\RapogGenerator.Shared.projitems" Label="Shared" Condition="Exists('..\RapogGenerator.Shared\RapogGenerator.Shared.projitems')" />
 </Project>
