@@ -11,7 +11,7 @@ namespace RapogGenerator.Shared.DocumentDB.Tests
         public async Task GetArticleShouldReturnAnArticleWithAllTheContentOfTheJsonFile()
         {
             var documentClient = new DocumentClient(@"./DocumentDB");
-            var articleDocument = await documentClient.GetArticle("article.json");
+            var articleDocument = await documentClient.GetArticleAsync("article.json");
 
             Assert.Equal("Central Park", articleDocument.Title);
             Assert.Equal("Marjolaine", articleDocument.Author);

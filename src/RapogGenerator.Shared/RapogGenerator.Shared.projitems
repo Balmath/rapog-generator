@@ -9,13 +9,16 @@
     <Import_RootNamespace>RapogGenerator.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)DocumentDB\ArticleDocument.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="$(MSBuildThisFileDirectory)DocumentDB\CommentDocument.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="$(MSBuildThisFileDirectory)DocumentDB\DocumentClient.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Article.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="$(MSBuildThisFileDirectory)Repositories\ArticleRepository.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="$(MSBuildThisFileDirectory)Repositories\IArticleRepository.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+    <Compile Include="$(MSBuildThisFileDirectory)DocumentDB\ArticleDocument.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DocumentDB\CommentDocument.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DocumentDB\DocumentClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Generator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Article.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Comment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Repositories\ArticleRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Repositories\IArticleRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\ITemplatesEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Templates\TemplatesEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)DocumentDB\" />

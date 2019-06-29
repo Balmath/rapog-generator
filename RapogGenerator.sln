@@ -5,15 +5,18 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4FB20E91-0ECF-42C3-B043-02B1AD2F704F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapogGenerator", "src\RapogGenerator\RapogGenerator.csproj", "{38342741-61C8-46A6-A4FD-B805DB27FA5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RapogGenerator", "src\RapogGenerator\RapogGenerator.csproj", "{38342741-61C8-46A6-A4FD-B805DB27FA5B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{27B9FCDA-FF4F-442D-8FDE-A504443EB57C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapogGenerator.Shared.Tests", "tests\RapogGenerator.Shared.Tests\RapogGenerator.Shared.Tests.csproj", "{7A6B0362-2E85-4A26-B18B-208BCC9ECE09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RapogGenerator.Shared.Tests", "tests\RapogGenerator.Shared.Tests\RapogGenerator.Shared.Tests.csproj", "{7A6B0362-2E85-4A26-B18B-208BCC9ECE09}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RapogGenerator.Shared", "src\RapogGenerator.Shared\RapogGenerator.Shared.shproj", "{6821E5C3-6803-4C75-96EA-7A5E1BB8FC0C}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\RapogGenerator.Shared\RapogGenerator.Shared.projitems*{6821e5c3-6803-4c75-96ea-7a5e1bb8fc0c}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -21,9 +24,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{38342741-61C8-46A6-A4FD-B805DB27FA5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -51,9 +51,15 @@ Global
 		{7A6B0362-2E85-4A26-B18B-208BCC9ECE09}.Release|x86.ActiveCfg = Release|Any CPU
 		{7A6B0362-2E85-4A26-B18B-208BCC9ECE09}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{38342741-61C8-46A6-A4FD-B805DB27FA5B} = {4FB20E91-0ECF-42C3-B043-02B1AD2F704F}
 		{7A6B0362-2E85-4A26-B18B-208BCC9ECE09} = {27B9FCDA-FF4F-442D-8FDE-A504443EB57C}
 		{6821E5C3-6803-4C75-96EA-7A5E1BB8FC0C} = {4FB20E91-0ECF-42C3-B043-02B1AD2F704F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {55C9613C-9244-4697-B6DD-A35C775C7051}
 	EndGlobalSection
 EndGlobal

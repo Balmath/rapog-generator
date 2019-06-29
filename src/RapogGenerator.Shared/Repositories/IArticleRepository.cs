@@ -6,8 +6,8 @@ namespace RapogGenerator.Shared.Repositories
 {
     public interface IArticleRepository
     {
-        Task<IEnumerable<string>> GetAllArticlePaths();
+        Task<IEnumerable<string>> GetAllArticlePathsAsync();
 
-        Task<Article> GetArticle(string articleDocumentPath);
+        Task<Article> GetArticleAsync(string articleDocumentPath);
     }
 }

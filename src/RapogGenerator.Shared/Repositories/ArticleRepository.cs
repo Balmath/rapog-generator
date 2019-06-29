@@ -4,20 +4,54 @@ using System.Linq;
 using System.Threading.Tasks;
 using RapogGenerator.Shared.DocumentDB;
 using RapogGenerator.Shared.Models;
+#if WINDOWS_UWP
+using System;
+using Windows.Storage;
+#endif
 
 namespace RapogGenerator.Shared.Repositories
 {
     public class ArticleRepository : IArticleRepository
     {
+#if WINDOWS_UWP
+        private readonly StorageFolder rootStorageFolder;
+#else
         private readonly string rootDirectoryPath;
+#endif
         private readonly DocumentClient documentClient;
 
+#if WINDOWS_UWP
+        public ArticleRepository(StorageFolder rootStorageFolder)
+        {
+            this.rootStorageFolder = rootStorageFolder;
+            documentClient = new DocumentClient(rootStorageFolder);
+        }
+#else
         public ArticleRepository(string rootDirectoryPath)
         {
             this.rootDirectoryPath = rootDirectoryPath;
             documentClient = new DocumentClient(rootDirectoryPath);
         }
+#endif
 
+#if WINDOWS_UWP
+        private async Task AddArticleDocumentFilePaths(StorageFolder currentStorageFolder, IList<string> articleDocumentPaths)
+        {
+            foreach (var storageFile in await currentStorageFolder.GetFilesAsync())
+            {
+                if (storageFile.FileType.ToLower() == ".json")
+                {
+                    var articleDocumentPath = storageFile.Path.Replace(rootStorageFolder.Path, string.Empty);
+                    articleDocumentPaths.Add(articleDocumentPath);
+                }
+            }
+
+            foreach (var storageFolder in await currentStorageFolder.GetFoldersAsync())
+            {
+                await AddArticleDocumentFilePaths(storageFolder, articleDocumentPaths);
+            }
+        }
+#else
         private void AddArticleDocumentFilePaths(string currentDirectoryPath, IList<string> articleDocumentPaths)
         {
             foreach (var filePath in Directory.EnumerateFiles(currentDirectoryPath))
@@ -34,24 +68,31 @@ namespace RapogGenerator.Shared.Repositories
                 AddArticleDocumentFilePaths(directoryPath, articleDocumentPaths);
             }
         }
+#endif
 
-        public Task<IEnumerable<string>> GetAllArticlePaths()
+        public async Task<IEnumerable<string>> GetAllArticlePathsAsync()
         {
-            if (!Directory.Exists(rootDirectoryPath))
-            {
-                return Task.FromResult(Enumerable.Empty<string>());
-            }
-
             var articleDocumentPaths = new List<string>();
 
-            AddArticleDocumentFilePaths(rootDirectoryPath, articleDocumentPaths);
+#if WINDOWS_UWP
+            if (rootStorageFolder != null)
+#else
+            if (Directory.Exists(rootDirectoryPath))
+#endif
+            {
+#if WINDOWS_UWP
+                await AddArticleDocumentFilePaths(rootStorageFolder, articleDocumentPaths);
+#else
+                await Task.Run(() => AddArticleDocumentFilePaths(rootDirectoryPath, articleDocumentPaths));
+#endif
+            }
 
-            return Task.FromResult<IEnumerable<string>>(articleDocumentPaths);
+            return articleDocumentPaths;
         }
 
-        public async Task<Article> GetArticle(string articleDocumentPath)
+        public async Task<Article> GetArticleAsync(string articleDocumentPath)
         {
-            var articleDocument = await documentClient.GetArticle(articleDocumentPath);
+            var articleDocument = await documentClient.GetArticleAsync(articleDocumentPath);
             return new Article(
                 articleDocumentPath,
                 articleDocument.Title,

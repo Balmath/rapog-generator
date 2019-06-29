@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using CommandLine;
+using RapogGenerator.Shared;
 using RapogGenerator.Shared.Repositories;
+using RapogGenerator.Shared.Templates;
 
 namespace RapogGenerator
 {
@@ -12,6 +15,9 @@ namespace RapogGenerator
         {
             [Option('i', "inputDirectory", Required = true, HelpText = "Set the folder with the articles.")]
             public string InputDirectory { get; set; }
+
+            [Option('t', "templatesDirectory", Required = true, HelpText = "Set the templates folder.")]
+            public string TemplatesDirectory { get; set; }
 
             [Option('o', "outputDirectory", Default=".\\build\\", HelpText = "Set the output folder.")]
             public string OutputDirectory { get; set; }
@@ -38,18 +44,31 @@ namespace RapogGenerator
         {
             return Parser.Default.ParseArguments<GenerateOptions, ListOptions, GetOptions>(args)
                 .MapResult(
-                    (GenerateOptions o) => 1,
+                    (GenerateOptions o) => GenerateWebsite(o),
                     (ListOptions o) => ListArticles(o),
                     (GetOptions o) => GetArticle(o),
                     errs => 1);
         }
 
+        static int GenerateWebsite(GenerateOptions options)
+        {
+            var repository = new ArticleRepository(options.InputDirectory);
+
+            var templatesEngine = new TemplatesEngine(options.TemplatesDirectory);
+            templatesEngine.ArticleTemplateName = "ArticlePage";
+
+            var generator = new Generator(repository, templatesEngine);
+
+            generator.GenerateAsync(options.OutputDirectory).GetAwaiter().GetResult();
+
+            return 0;
+        }
+
         static int ListArticles(ListOptions options)
         {
             var repository = new ArticleRepository(options.InputDirectory);
-            var task = repository.GetAllArticlePaths();
-            task.Wait();
-            foreach (var articleDocumentPath in task.Result)
+            var articlePaths = repository.GetAllArticlePathsAsync().GetAwaiter().GetResult();;
+            foreach (var articleDocumentPath in articlePaths)
             {
                 Console.WriteLine(articleDocumentPath);
             }
@@ -61,9 +80,7 @@ namespace RapogGenerator
             try
             {
                 var repository = new ArticleRepository(options.InputDirectory);
-                var task = repository.GetArticle(options.Path);
-                task.Wait();
-                var article = task.Result;
+                var article = repository.GetArticleAsync(options.Path).GetAwaiter().GetResult();
                 Console.WriteLine("Path: {0}", article.Path);
                 Console.WriteLine("Title: {0}", article.Title);
                 Console.WriteLine("Author: {0}", article.Author);
