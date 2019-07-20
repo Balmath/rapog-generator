@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using RapogGenerator.Shared.Comparers;
 using RapogGenerator.Shared.DocumentDB;
 using RapogGenerator.Shared.Models;
 #if WINDOWS_UWP
@@ -90,6 +92,13 @@ namespace RapogGenerator.Shared.Repositories
             return articleDocumentPaths;
         }
 
+        public async Task<IEnumerable<string>> GetAllArticlePathsOrderedByDateAsync()
+        {
+            var orderedArticles = await GetAllArticlesOrderedByDate();
+
+            return orderedArticles.Values.Select(a => a.Path);
+        }
+
         public async Task<Article> GetArticleAsync(string articleDocumentPath)
         {
             var articleDocument = await documentClient.GetArticleAsync(articleDocumentPath);
@@ -103,6 +112,21 @@ namespace RapogGenerator.Shared.Repositories
                                                                  : Enumerable.Empty<string>(),
                 articleDocument.Content,
                 articleDocument.Comments.Select(cd => new Comment(cd.Author, cd.Date, cd.Content)));
+        }
+
+        private async Task<SortedList<DateTime, Article>> GetAllArticlesOrderedByDate()
+        {
+            var articlePaths = await GetAllArticlePathsAsync();
+
+            var orderedArticles = new SortedList<DateTime, Article>(new DescendingComparer<DateTime>());
+
+            foreach (var articlePath in articlePaths)
+            {
+                var article = await GetArticleAsync(articlePath);
+                orderedArticles.Add(article.Date, article);
+            }
+
+            return orderedArticles;
         }
     }
 }

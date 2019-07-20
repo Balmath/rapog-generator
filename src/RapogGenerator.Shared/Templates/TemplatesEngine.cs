@@ -11,26 +11,31 @@ namespace RapogGenerator.Shared.Templates
     {
         private const char StartDelimiter = '{';
         private const char EndDelimiter = '}';
+        private const string ArticleParameterName = "article";
+        private const string PaginatedArticlesParameterName = "paginatedArticles";
 
         private TemplateGroup templateGroup;
 
         public TemplatesEngine(string rootTemplatePath)
         {
-            if (!Path.IsPathRooted(rootTemplatePath))
-            {
-                var applicationDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                rootTemplatePath = Path.Combine(applicationDirectory, rootTemplatePath);
-                rootTemplatePath = Path.GetFullPath(rootTemplatePath);
-            }
             templateGroup = new TemplateRawGroupDirectory(rootTemplatePath, StartDelimiter, EndDelimiter);
         }
 
         public string ArticleTemplateName { get; set; }
 
+        public string PaginatedHomeTemplateName { get; set; }
+
         public void RenderArticle(Article article, TextWriter textWriter)
         {
             var template = templateGroup.GetInstanceOf(ArticleTemplateName);
-            template.Add("article", article);
+            template.Add(ArticleParameterName, article);
+            template.Write(textWriter, new TemplateErrorListener());
+        }
+
+        public void RenderPaginatedHome(PaginatedArticles paginatedArticles, TextWriter textWriter)
+        {
+            var template = templateGroup.GetInstanceOf(PaginatedHomeTemplateName);
+            template.Add(PaginatedArticlesParameterName, paginatedArticles);
             template.Write(textWriter, new TemplateErrorListener());
         }
 

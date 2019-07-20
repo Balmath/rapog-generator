@@ -8,6 +8,8 @@ namespace RapogGenerator.Shared.Repositories
     {
         Task<IEnumerable<string>> GetAllArticlePathsAsync();
 
+        Task<IEnumerable<string>> GetAllArticlePathsOrderedByDateAsync();
+
         Task<Article> GetArticleAsync(string articleDocumentPath);
     }
 }

@@ -52,26 +52,35 @@ namespace RapogGenerator
 
         static int GenerateWebsite(GenerateOptions options)
         {
-            var repository = new ArticleRepository(options.InputDirectory);
+            var inputDirectory = Path.GetFullPath(options.InputDirectory);
+            var repository = new ArticleRepository(inputDirectory);
 
-            var templatesEngine = new TemplatesEngine(options.TemplatesDirectory);
-            templatesEngine.ArticleTemplateName = "ArticlePage";
+            var templatesDirectory = Path.GetFullPath(options.TemplatesDirectory);
+            var templatesEngine = new TemplatesEngine(templatesDirectory)
+            {
+                ArticleTemplateName = "articlePage",
+                PaginatedHomeTemplateName = "homePage"
+            };
 
             var generator = new Generator(repository, templatesEngine);
 
-            generator.GenerateAsync(options.OutputDirectory).GetAwaiter().GetResult();
+            var outputDirectory = Path.GetFullPath(options.OutputDirectory);
+            generator.GenerateAsync(outputDirectory).GetAwaiter().GetResult();
 
             return 0;
         }
 
         static int ListArticles(ListOptions options)
         {
-            var repository = new ArticleRepository(options.InputDirectory);
+            var inputDirectory = Path.GetFullPath(options.InputDirectory);
+            var repository = new ArticleRepository(inputDirectory);
+
             var articlePaths = repository.GetAllArticlePathsAsync().GetAwaiter().GetResult();;
             foreach (var articleDocumentPath in articlePaths)
             {
                 Console.WriteLine(articleDocumentPath);
             }
+
             return 0;
         }
 
@@ -79,8 +88,11 @@ namespace RapogGenerator
         {
             try
             {
-                var repository = new ArticleRepository(options.InputDirectory);
+                var inputDirectory = Path.GetFullPath(options.InputDirectory);
+                var repository = new ArticleRepository(inputDirectory);
+
                 var article = repository.GetArticleAsync(options.Path).GetAwaiter().GetResult();
+
                 Console.WriteLine("Path: {0}", article.Path);
                 Console.WriteLine("Title: {0}", article.Title);
                 Console.WriteLine("Author: {0}", article.Author);
